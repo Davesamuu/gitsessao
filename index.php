@@ -7,5 +7,12 @@
 </head>
 <body>
     <h1>TESTE - 01</h1>
+
+    <div>
+        <?php include_once ('registro.php'); ?>
+    </div>
+
 </body>
 </html>
+<?php
+?>

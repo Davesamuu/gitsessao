@@ -1,25 +1,22 @@
 <?php
 session_start();
 
+require_once 'config.php';
+require_once 'public/controllers/UsuarioController.php';
+
 if ($_SERVER['REQUEST_METHOD'] == 'POST')
- {
+{
 $usuario = $_POST['usuario']; 
 $senha = password_hash($_POST["senha"], PASSWORD_BCRYPT);
 $email = $_POST["email"];
 
-try { $pdo = new PDO("mysql:host=localhost; dbname=autenticacao", "root", "");
-$pdo->setAttribute (PDO::ATTR_ERRMODE, PDO:: ERRMODE_EXCEPTION);
- } catch (PDOException $e) 
- { die("Erro na conexão com o banco de dados: " . $e->getMessage(
-   ));
- }
+$UsuarioController = new UsuarioController($pdo);
+$UsuarioController->criarUsuario($email,$senha,$usuario);
 
-// Insira os dados na tabela 'users' 
-$stmt = $pdo->prepare("INSERT INTO usuarios (email, senha, usuario) VALUES (?, ?, ?)");
-$stmt->execute([$email, $senha, $usuario]);
+
 
 $_SESSION["usuarios"] = $usuarios;
- header("Location:dashboard.php");
+ header("Location:login.php");
 }
 ?>
 
